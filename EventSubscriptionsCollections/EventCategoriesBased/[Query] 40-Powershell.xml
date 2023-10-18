@@ -1,0 +1,42 @@
+<QueryList>
+  <!-- 40-1 Classic -->
+  <Query Id="0">
+    <!-- (400) Engine state changed from None to Available
+         (403) Engine state changed from Available to Stopped
+         (501) Command executed
+         (600) Provider [provider] is started
+         (800) Pipeline execution details for command line: [command] -->
+    <Select Path="Windows PowerShell">*[System[(EventID=400 or EventID=403 or EventID=501 or EventID=600 or EventID=800)]]</Select>
+  </Query>
+  <!-- 40-2 Modern -->
+  <Query Id="1">
+    <!-- (4103) PowerShell execute block
+         (4104) Remote Command
+         (4105) Start Command
+         (4106) Stop Command -->
+    <Select Path="Microsoft-Windows-PowerShell/Operational">*[System[(EventID=4103 or (EventID=4104 and Level!=5) or EventID=4105 or EventID=4106)]]</Select>
+    <Suppress Path="Microsoft-Windows-PowerShell/Operational">
+           <!-- Suppress common system activity -->
+            *[EventData[Data[@Name='ScriptBlockText']='prompt']] or
+            *[EventData[Data[@Name='ScriptBlockText']='$global:?']]
+    </Suppress>
+  </Query>
+  <!-- 40-3 Core (v6 or higher) -->
+  <Query Id="2">
+    <!-- (4103) PowerShell execute block
+         (4104) Remote Command
+         (4105) Start Command
+         (4106) Stop Command -->
+    <Select Path="PowerShellCore/Operational">*[System[(EventID=4103 or (EventID=4104 and Level!=5) or EventID=4105 or EventID=4106)]]</Select>
+    <Suppress Path="PowerShellCore/Operational">
+           <!-- Suppress common system activity -->
+            *[EventData[Data[@Name='ScriptBlockText']='prompt']] or
+            *[EventData[Data[@Name='ScriptBlockText']='$global:?']]
+    </Suppress>
+  </Query>
+  <!-- 40-4 Desired State Configuration (DSC) -->
+  <Query Id="3">
+    <Select Path="Microsoft-Windows-DSC/Operational">*</Select>
+    <Select Path="Microsoft-Windows-PowerShell-DesiredStateConfiguration-FileDownloadManager/Operational">*</Select>
+  </Query>
+</QueryList>

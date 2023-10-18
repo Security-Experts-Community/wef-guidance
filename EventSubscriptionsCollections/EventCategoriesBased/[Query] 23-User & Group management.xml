@@ -1,0 +1,64 @@
+<QueryList>
+  <!-- 23-1 User Account Management -->
+  <Query Id="0">
+    <!-- (4703) A user right (privilege) was adjusted (S)
+         (4704) A user right (privilege) was assigned (S)
+         (4705) A user right (privilege) was removed (S)
+         (4717) System security access was granted to an account (S)
+         (4718) System security access was removed from an account (S)
+         (4720) A user account was created (S)
+         (4722) A user account was enabled (S)
+         (4723) An attempt was made to change an account's password (S, F)
+         (4724) An attempt was made to reset an account's password (S, F)
+         (4725) A user account was disabled (S)
+         (4726) A user account was deleted (S)
+         (4627) Group membership information (S)
+         (4738) A user account was changed (S)
+         (4781) The name of an account was changed (S)
+         (4798) A user's local group membership was enumerated (S) -->
+    <Select Path="Security">*[System[(EventID=4717 or EventID=4718 or EventID=4720 or EventID=4738 or EventID=4781 or EventID=4798)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4703 and EventID &lt;= 4705)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4722 and EventID &lt;= 4726)]]</Select>
+  </Query>
+  <!-- 23-2 Computer Account Management-->
+  <Query Id="1">
+    <!-- (4741) A computer account was created (S)
+         (4742) A computer account was changed (S)
+         (4743) A computer account was deleted (S) -->
+    <Select Path="Security">*[System[(EventID=4741 or EventID=4742 or EventID=4743)]]</Select>
+  </Query>
+  <!-- 23-3 Security Group Management -->
+  <Query Id="2">
+    <!-- (4727,4731,4754) A security-enabled global/local/universal group was created (S)
+         (4728,4732,4756) A member was added to a security-enabled global/local/universal group (S)
+         (4729,4733,4757) A member was removed from a security-enabled global/local/universal group (S)
+         (4730,4734,4758) A security-enabled global/local/universal group was deleted (S)
+         (4735,4737,4755) A security-enabled global/local/universal group was changed (S)
+         (4799) A security-enabled local group membership was enumerated (S) -->
+    <Select Path="Security">*[System[(EventID &gt;= 4727 and EventID &lt;= 4735)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4754 and EventID &lt;= 4758)]]</Select>
+    <Select Path="Security">*[System[(EventID=4737 or EventID=4799)]]</Select>
+  </Query>
+  <!-- 23-4 Distribution Group Management -->
+  <Query Id="3">
+    <!-- (4744,4749,4759) A security-disabled local/global/universal group was created (S)
+         (4745,4750,4760) A security-disabled local/global/universal group was changed (S)
+         (4746,4751,4761) A member was added to a security-disabled local/global/universal group (S)
+         (4747,4752,4762) A member was removed from a security-disabled local/global/universal group (S)
+         (4748,4753,4763) A security-disabled local/global/universal group was deleted (S) -->
+    <Select Path="Security">*[System[(EventID &gt;= 4744 and EventID &lt;= 4753)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4759 and EventID &lt;= 4763)]]</Select>
+  </Query>
+  <!-- 23-5 Password Security -->
+  <Query Id="4">
+    <!-- (4782) The password hash of an account was accessed (S)
+         (4793) The Password Policy Checking API was called (S) -->
+    <Select Path="Security">*[System[(EventID=4782 or EventID=4793)]]</Select>
+  </Query>
+  <!-- 23-6 Account Lockout -->
+  <Query Id="5">
+    <!-- (4740) A user account was locked out (S)
+         (4767) A user account was unlocked (S) -->
+    <Select Path="Security">*[System[(EventID=4740 or EventID=4767)]]</Select>
+  </Query>
+</QueryList>

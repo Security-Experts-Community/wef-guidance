@@ -1,0 +1,98 @@
+<QueryList>
+  <!-- 60-Domain Controller authentication -->
+  <Query Id="0">
+    <!-- (4713) Kerberos Policy was changed (S)
+         (4769) A Kerberos service ticket was requested (S, F)
+         (4770) A Kerberos service ticket was renewed (S)
+         (4773) A Kerberos service ticket request failed (F)
+         (4821) A Kerberos service ticket was denied because the user, device, or both does not meet the access control restrictions (-)
+         (4768) A Kerberos authentication ticket (TGT) was requested (S, F)
+         (4771) Kerberos pre-authentication failed (F)
+         (4772) A Kerberos authentication ticket request failed (F)
+         (4820) A Kerberos Ticket-granting-ticket (TGT) was denied because the device does not meet the access control restrictions (-)
+         (4824) Kerberos pre-authentication by using DES or RC4 failed because the account was a member of the Protected User group (-) -->
+    <Select Path="Security">*[System[(EventID &gt;= 4768 and EventID &lt;= 4773)]]</Select>
+    <Select Path="Security">*[System[(EventID=4713 or EventID=4820 or EventID=4821 or EventID=4824)]]</Select>
+    <!-- (101) An NTLM sign-in failure occurs because access control restrictions are required, and those restrictions cannot be applied to NTLM
+         (105) A Kerberos restriction failure occurs because the authentication from a particular device was not permitted
+         (106) A Kerberos restriction failure occurs because the user or device was not allowed to authenticate to the server
+         (305) A potential Kerberos restriction failure might occur because the authentication from a particular device was not permitted
+         (306) A Kerberos restriction failure might occur because the user or device was not allowed to authenticate to the server -->
+    <Select Path="Microsoft-Windows-Authentication/AuthenticationPolicyFailures-DomainController">*[System[(EventID=101 or EventID=105 or EventID=106 or EventID=305 or EventID=306)]]</Select>
+    <!-- (100) An NTLM sign-in failure occurs for an account that is in the Protected Users security group
+         (104) DES or RC4 encryption types are used for Kerberos authentication and a sign-in failure occurs for a user in the Protected User security group -->
+    <Select Path="Microsoft-Windows-Authentication/ProtectedUserFailures-DomainController">*[System[(EventID=100 or EventID=104)]]</Select>
+    <!-- (303) A Kerberos ticket-granting-ticket (TGT) was successfully issued for a member of the Protected User group -->
+    <Select Path="Microsoft-Windows-Authentication/ProtectedUserSuccesses-DomainController">*[System[(EventID=303)]]</Select>
+    <!-- (1138) Function [func] entered
+         (1174) LDAP search with bad password
+         (1644) A client issued a search operation with the following options
+         (2946) Call successfully fetched the password of a gMSA account
+         (2947) Call failed to fetch the password of a gMSA account -->
+    <Select Path="Directory Service">[System[(EventID=1138 or EventID=1174 or EventID=1644 or EventID=2946 or EventID=2947)]]</Select>
+    <!-- (5805) A machine account failed to authenticate
+         (5827) The Netlogon service denied a vulnerable Netlogon secure channel connection from a machine account
+         (5828) The Netlogon service denied a vulnerable Netlogon secure channel connection using a trust account
+         (5829) The Netlogon service allowed a vulnerable Netlogon secure channel connection
+         (5830) The Netlogon service allowed a vulnerable Netlogon secure channel connection because the machine account is allowed in the group policy
+         (5831) The Netlogon service allowed a vulnerable Netlogon secure channel connection because the trust account is allowed in the group policy -->
+    <Select Path="System">*[System[Provider[@Name='Netlogon'] and (EventID=5805 or (EventID &gt;= 5827 and EventID &lt;= 5831))]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Kerberos-Key-Distribution-Center']]]</Select>
+  </Query>
+  <!-- 61-Directory Services -->
+  <Query Id="1">
+    <!-- (4662) An operation was performed on an object (S, F)
+         (5136) A directory service object was modified (S)
+         (5137) A directory service object was created (S)
+         (5138) A directory service object was undeleted (S)
+         (5139) A directory service object was moved (S)
+         (5141) A directory service object was deleted (S)
+         (4932) Synchronization of a replica of an Active Directory naming context has begun (S)
+         (4933) Synchronization of a replica of an Active Directory naming context has ended (S, F)
+         (4928) An Active Directory replica source naming context was established (S, F)
+         (4929) An Active Directory replica source naming context was removed (S, F)
+         (4930) An Active Directory replica source naming context was modified (S, F)
+         (4931) An Active Directory replica destination naming context was modified (S, F)
+         (4934) Attributes of an Active Directory object were replicated (S)
+         (4935) Replication failure begins (F)
+         (4936) Replication failure ends (S)
+         (4937) A lingering object was removed from a replica (S) -->
+    <Select Path="Security">*[System[(EventID=4662 or EventID=5141)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4928 and EventID &lt;= 4937)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 5136 and EventID &lt;= 5139)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-DirectoryServices-DSROLE-Server']]]</Select>
+  </Query>
+  <!-- 62-DNS Server -->
+  <Query Id="2">
+    <!-- (150) DNS Server could not load or initialize the plug-in DLL
+         (770) DNS Server plug-in DLL jas been loaded
+         (6004) DNS Server received a zone transfer request from [IP] for a non-existent or non-authoritative zone -->
+    <Select Path="DNS Server">*[System[(EventID=150 or EventID=770 or EventID=6004)]]</Select>
+    <Select Path="Microsoft-Windows-DNSServer/Audit">*[System[(EventID &gt;= 512 and EventID &lt;= 582)]]</Select>
+  </Query>
+  <!-- 63-AD secuity -->
+  <Query Id="3">
+    <!-- (4649) A replay attack was detected (S)
+         (4764) A group’s type was changed (S)
+         (4765) SID History was added to an account (S)
+         (4766) An attempt to add SID History to an account failed (F)
+         (4780) The ACL was set on accounts which are members of administrators groups (S)
+         (4794) An attempt was made to set the DSRM administrator password (S, F) -->
+    <Select Path="Security">*[System[(EventID=4649 or EventID=4764 or EventID=4765 or EventID=4766 or EventID=4780 or EventID=4794)]]</Select>
+    <!-- (325) The database engine created a new database
+         (326) The database engine attached a new database
+         (327) The database engine detached a new database -->
+    <Select Path="Application">*[System[Provider[@Name='ESENT'] and (EventID=325 or EventID=326 or EventID=327)]]</Select>
+  </Query>
+  <!-- 64-Trust Relationships -->
+  <Query Id="4">
+    <!-- (4706) A new trust was created to a domain (S)
+         (4707) A trust to a domain was removed (S)
+         (4716) Trusted domain information was modified (S)
+         (4864) A namespace collision was detected (S)
+         (4865) A trusted forest information entry was added (S)
+         (4866) A trusted forest information entry was removed (S)
+         (4867) A trusted forest information entry was modified (S) -->
+    <Select Path="Security">*[System[(EventID=4706 or EventID=4707 or EventID=4716 or (EventID &gt;= 4864 and EventID &lt;= 4867))]]</Select>
+  </Query>
+</QueryList>

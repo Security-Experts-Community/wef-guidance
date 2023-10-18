@@ -1,0 +1,53 @@
+<QueryList>
+  <!-- 32-1 Device & drivers -->
+  <Query Id="0">
+    <!-- (219) Failed to load Kernel Driver [driver] -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Kernel-PnP'] and (EventID=219)]]</Select>
+    <!-- (400) Device [device] was configured
+         (401) Device [device] failed to be configured
+         (410) Device [device] was initiated -->
+    <Select Path="Microsoft-Windows-Kernel-PnP/Configuration">*[System[(EventID=400 or EventID=401 or EventID=410)]]</Select>
+    <!-- (1003) USB media connected
+         (1008) USB media disconnected
+         (2004) User-Mode drivers loaded -->
+    <Select Path="Microsoft-Windows-DriverFrameworks-UserMode/Operational">*[System[(EventID=1003 or EventID=1008 or EventID=2004)]]</Select>
+    <!-- (1006) Disk/device information -->
+    <Select Path="Microsoft-Windows-Partition/Diagnostic">*[System[(EventID=1006)]]</Select>
+    <Select Path="HardwareEvents">*</Select>
+  </Query>
+  <!-- 32-2 Removable storage -->
+  <Query Id="1">
+    <!-- (6416) A new external device was recognized by the System (S)
+         (6419) A request was made to disable a device (S)
+         (6420) A device was disabled (S)
+         (6421) A request was made to enable a device (S)
+         (6422) A device was enabled (S)
+         (6423) The installation of this device is forbidden by system policy (S)
+         (6424) The installation of this device was allowed after having previously been forbidden by policy (S) -->
+    <Select Path="Security">*[System[(EventID=6416 or (EventID &gt;=6419 and EventID &lt;=6424))]]</Select>
+  </Query>
+  <!-- 32-3 Printer -->
+  <Query Id="2">
+    <!-- (354) Failed to initialize [printer] from [DLL]
+         (808) Printer spooler failed to load module [DLL]
+         (823) Changing default printer to [printer] -->
+    <Select Path="Microsoft-Windows-PrintService/Admin">*[System[(EventID=354 or EventID=808 or EventID=823)]]</Select>
+    <!-- (307) Printer job
+         (848) Printer share created
+         (849) Printer share deleted -->
+    <Select Path="Microsoft-Windows-PrintService/Operational">*[System[(EventID=307 or EventID=848 or EventID=849)]]</Select>
+  </Query>
+  <!-- 32-4 RDP (device activity) -->
+  <Query Id="3">
+    <Select Path="Microsoft-Windows-TerminalServices-ClientUSBDevices/Operational">*</Select>
+    <Select Path="Microsoft-Windows-TerminalServices-PnPDevices/Operational">*</Select>
+    <Select Path="Microsoft-Windows-TerminalServices-ServerUSBDevices/Operational">*</Select>
+  </Query>
+  <!-- 32-5 ISO/VHD file -->
+  <Query Id="4">
+    <!-- (1) The VHD [.iso, .vhd] has come online as disk number [n]
+         (2) The VHD [.iso, .vhd] has been removed as disk number [n]
+         (12) Handle for virtual disk [*.iso] created successfully -->
+    <Select Path="Microsoft-Windows-VHDMP-Operational">*[System[(EventID=1 or EventID=2 or EventID=12)]]</Select>
+  </Query>
+</QueryList>

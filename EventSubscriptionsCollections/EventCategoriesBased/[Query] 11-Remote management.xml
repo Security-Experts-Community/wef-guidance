@@ -1,0 +1,40 @@
+<QueryList>
+  <!-- 11-1 RDP -->
+  <Query Id="0">
+    <!-- (104) Client timezone is [h] hour from UTC
+         (131) The server accepted a new UDP/TCP connection from client [IP]:[PORT]
+         (168) The resolution requested by the client: Monitor 1: [X x Y]
+         (169) The client operating system type is (1, 3) > Server [SERVER] -->
+    <Select Path="Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational">*[System[(EventID=104 or EventID=131 or EventID=168 or EventID=169)]]</Select>
+    <!-- (21) Session logon succeeded
+         (22) Shell start notification received
+         (23) Session logoff succeeded
+         (24) Session has been disconnected
+         (25) Session reconnection succeeded
+         (39) Session <A> has been disconnected by session <B>
+         (40) Session <A> has been disconnected, reason code <B> -->
+    <Select Path="Microsoft-Windows-TerminalServices-LocalSessionManager/Operational">*[System[((EventID &gt;= 21 and EventID &lt;= 25) or EventID=39 or EventID=40)]]</Select>
+    <Select Path="Microsoft-Windows-TerminalServices-RemoteConnectionManager/Admin">*</Select>
+    <!-- (1149) User authentication succeeded
+         (20503) Shadow View session started
+         (20504) Shadow View session stopped
+         (20508) Shadow View permission granted -->
+    <Select Path="Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational">*[System[(EventID=1149 or EventID=20503 or EventID=20504 or EventID=20508)]]</Select>
+    <!-- (1024) Outbound TS Connect Attempt
+         (1029) Base64(SHA1(UserName))
+         (1102) Outbound multi-transport Connect Attempt -->
+    <Select Path="Microsoft-Windows-TerminalServices-RDPClient/Operational">*[System[(EventID=1024 or EventID=1029 or EventID=1102)]]</Select>
+  </Query>
+  <!-- 11-2 WinRM -->
+  <Query Id="1">
+    <!-- (6) Creating WSMan Session - Client
+         (91) Creating WSMan Session - Server
+         (169) User [user]: got authenticated using [auth] -->
+    <Select Path="Microsoft-Windows-Windows Remote Management/Operational">*[System[(EventID=6 or EventID=91 or EventID=169)]]</Select>
+  </Query>
+  <!-- 11-3 OpenSSH -->
+  <Query Id="2">
+  	<!-- (4) sshd: [message] -->
+    <Select Path="OpenSSH/Operational">*[System[(EventID=4)]]</Select>
+  </Query>
+</QueryList>

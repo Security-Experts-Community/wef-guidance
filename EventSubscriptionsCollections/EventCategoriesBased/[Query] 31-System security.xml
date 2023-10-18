@@ -1,0 +1,192 @@
+<QueryList>
+  <!-- 31-1 Windows Update -->
+  <Query Id="0">
+    <!-- (19) Installation successfull: [package]
+         (20) Installation failure -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-WindowsUpdateClient'] and (EventID=19 or EventID=20)]]</Select>
+    <!-- (2) Package [KBx] was successfully changed to the installed state
+         (4) A reboot is necessary before package [KBx] can be changed to the installed state
+         (7) Initiating changes to turn on update [feature/update] on package Microsoft-Windows-Lxss-Optional
+         (8) Initiating changes to turn on update [feature/update] off package Microsoft-Windows-Lxss-Optional
+         (9) Selectable update [update] of package [package] was successfully turned on
+         (10) Selectable update [module/feature] was successfully turned off
+         (13) A reboot is necessary before the selectable update [update] of package [package] can be turned on
+         (14) A reboot is necessary before the selectable update [update] of package [package] can be turned off
+         (109) Hotpatching Failed -->
+    <Select Path="Setup">*[System[Provider[@Name='Microsoft-Windows-Servicing'] and (EventID=2 or EventID=4 or EventID=7 or EventID=8 or EventID=9 or EventID=10 or EventID=13 or EventID=14 or EventID=109)]]</Select>
+    <!-- (20) Installation failure
+         (24,25,31,34,35) Update failed
+         (41) An update was downloaded: <title, KB, GUID, revision> -->
+    <Select Path="Microsoft-Windows-WindowsUpdateClient/Operational">*[System[(EventID=20 or EventID=24 or EventID=25 or EventID=31 or EventID=34 or EventID=35 or EventID=41)]]</Select>
+  </Query>
+  <!-- 31-2 Local Security Authority (LSA) -->
+  <Query Id="1">
+    <!-- (12) LSA started as a protected process -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-WinInit'] and (EventID=12)]]</Select>
+    <!-- (4610) An authentication package has been loaded by the Local Security Authority (S)
+         (4611) A trusted logon process has been registered with the Local Security Authority (S)
+         (4614) A notification package has been loaded by the Security Account Manager (S)
+         (4622) A security package has been loaded by the Local Security Authority (S) -->
+    <Select Path="Security">*[System[(EventID=4610 or EventID=4611 or EventID=4614 or EventID=4622)]]</Select>
+    <Select Path="Microsoft-Windows-LSA/Operational">(*[EventData[Data[@Name="TargetUserSid"] != "S-1-5-20"]]) and (*[EventData[Data[@Name="TargetUserSid"] != "S-1-5-18"]]) and (*[EventData[Data[@Name="TargetUserSid"] != "S-1-5-19"]])</Select>
+  </Query>
+  <!-- 31-3 Security Account Manager (SAM) -->
+  <Query Id="2">
+    <!-- (16962) A remote call to the SAM database has been denied
+         (16965) Remote calls to the SAM database have been denied in the past 900 seconds throttling window
+         (16968) The following client would have been normally been denied access to the SAM database
+         (16969) Remote calls to the SAM database are being restricted using the default security descriptor (Win10 or >)
+         (16963) Remote calls to the SAM database are being restricted
+         (16964) The registry security descriptor is malformed: %1.%n Remote calls to the SAM database are being restricted
+         (16966) Audit only mode is now enabled for remote calls to the SAM database
+         (16967) Audit only mode is now disabled for remote calls to the SAM database -->
+    <Select Path="System">*[System[(EventID &gt;=16962 and EventID &lt;=16967)]]</Select>
+  </Query>
+  <!-- 31-4 Credential Manager -->
+  <Query Id="3">
+    <!-- (4661) A handle to an object was requested (AD/SAM object) (S, F)
+         (5376) Credential Manager credentials were backed up (S)
+         (5377) Credential Manager credentials were restored from backup (S)
+         (5379) Credential Manager credentials were read (S)
+         (5380) Vault Find Credentials (S)
+         (5381) Vault credentials were enumerated (S)
+         (5382) Vault credentials were read (S) -->
+    <Select Path="Security">*[System[(EventID=4661 or EventID=5376 or EventID=5377 or EventID=5379 or EventID=5380 or EventID=5381 or EventID=5382)]]</Select>
+  </Query>
+  <!-- 31-5 Audit Policy -->
+  <Query Id="4">
+    <!-- Object Access (Kernel / File System / Registry ...)
+         (4656) A handle to an object was requested (S, F)
+         (4657) A registry value was modified (S) for: New Registry Value created (%%1904), Existing Registry Value modified (%%1905), Registry Value Deleted (%%1906)
+         (4658) The handle to an object was closed (S)
+         (4660) An object was deleted (S)
+         (4663) An attempt was made to access an object (S)
+         (4664) An attempt was made to create a hard link (S)
+         (4670) Permissions on an object were changed (S)
+         (4673) A privileged service was called (S, F)
+         (4674) An operation was attempted on a privileged object (S, F)
+         (4690) An attempt was made to duplicate a handle to an object (S)
+         (4985) The state of a transaction has changed (S) -->
+    <Select Path="Security">*[System[(EventID=4656 or EventID=4658 or EventID=4660 or EventID=4663 or EventID=4664 or EventID=4670 or EventID=4673 or EventID=4674 or EventID=4690 or EventID=4985)]]</Select>
+    <Select Path="Security">*[System[(EventID=4657)]] and ((*[EventData[Data[@Name="OperationType"] = "%%1904"]]) or (*[EventData[Data[@Name="OperationType"] = "%%1905"]]) or (*[EventData[Data[@Name="OperationType"] = "%%1906"]]))</Select>
+    <!-- Process
+         (4688) A new process has been created (S)
+         (4689) A process has exited (S)
+         (4696) A primary token was assigned to process (S) -->
+    <Select Path="Security">*[System[(EventID=4688 or EventID=4689 or EventID=4696)]]</Select>
+    <!-- DPAPI Activity
+         (4692) Backup of data protection master key was attempted (S, F)
+         (4693) Recovery of data protection master key was attempted (S, F)
+         (4694) Protection of auditable protected data was attempted (S, F)
+         (4695) Unprotection of auditable protected data was attempted (S, F) -->
+    <Select Path="Security">*[System[(EventID=4692 or EventID=4693 or EventID=4694 or EventID=4695)]]</Select>
+    <!-- Audit Policy Change
+         (4715) The audit policy (SACL) on an object was changed (S)
+         (4719) System audit policy was changed (S)
+         (4817) Auditing settings on object were changed (S)
+         (4826) Boot Configuration Data loaded (S)
+         (4902) The Per-user audit policy table was created (S)
+         (4904) An attempt was made to register a security event source (S)
+         (4905) An attempt was made to unregister a security event source (S)
+         (4906) The CrashOnAuditFail value has changed (S)
+         (4907) Auditing settings on object were changed (S)
+         (4908) Special Groups Logon table modified (S)
+         (4912) Per User Audit Policy was changed (S) -->
+    <Select Path="Security">*[System[(EventID=4715 or EventID=4719 or EventID=4817 or EventID=4826 or EventID=4902 or (EventID &gt;= 4904 and EventID &lt;= 4908) or EventID=4912)]]</Select>
+    <!-- RPC Events
+         (5712) A Remote Procedure Call (RPC) was attempted (S) -->
+    <Select Path="Security">*[System[(EventID=5712)]]</Select>
+  </Query>
+  <!-- 31-6 Windows Defender -->
+  <Query Id="5">
+    <!-- (1006) Malware found
+         (1007) Malware action taken
+         (1008) Malware action taken failed
+         (1009) Item restored from quarantine
+         (1013,1014) Malware history deletion
+         (1116) Threat detected (no action taken yet)
+         (1117) Threat detected (action taken with success)
+         (1118) Threat detected (action taken failed)
+         (1119) Threat detected (action taken critically failed)
+         (1151) Health report (inc. last update time)
+         (3002) Real time protection has encountered an error and failed
+         (3007) Real time protection recovered
+         (5000) Real time protection enabled
+         (5001) Real time protection disabled
+         (5004) Real time protection feature configured
+         (5007) Configuration changed (reports exclusions)
+         (5008) Malware engine failure -->
+    <Select Path="Microsoft-Windows-Windows Defender/Operational">*[System[(EventID &gt;= 1006 and EventID &lt;= 1009)]]</Select>
+    <Select Path="Microsoft-Windows-Windows Defender/Operational">*[System[(EventID=1013 or EventID=1014)]]</Select>
+    <Select Path="Microsoft-Windows-Windows Defender/Operational">*[System[(EventID &gt;= 1116 and EventID &lt;= 1119)]]</Select>
+    <Select Path="Microsoft-Windows-Windows Defender/Operational">*[System[(EventID=1151 or EventID=3002 or EventID=3007 or EventID=5000 or EventID=5001 or EventID=5004 or EventID=5007 or EventID=5008)]]</Select>
+    <Select Path="Microsoft-Windows-Windows Defender/WHC">*</Select>
+    <Select Path="Microsoft-Windows-DeviceGuard/Operational">*</Select>
+  </Query>
+  <!-- 31-7 Certificates -->
+  <Query Id="6">
+    <!-- (11) Certificate build chain
+         (30) Verify certificate chain policy
+         (70) Acquire certificate private key
+         (81) Verify certificat etrust
+         (90) X509 object -->
+    <Select Path="Microsoft-Windows-CAPI2/Operational">*[System[(EventID=11 or EventID=30 or EventID=70 or EventID=81 or EventID=90)]]</Select>
+    <!-- (1006) A new certificate has been installed
+         (1007) A certificate has been exported -->
+    <Select Path="Microsoft-Windows-CertificateServicesClient-LifeCycle-User/Operational">*[System[(EventID=1006 or EventID=1007)]]</Select>
+    <!-- (1001) Certificate replaced
+         (1002) Certificate expired
+         (1003) Certificate close to expiration
+         (1004) Certificate removed
+         (1006) A new certificate has been installed
+         (1007) A certificate has been exported -->
+    <Select Path="Microsoft-Windows-CertificateServicesClient-LifeCycle-System/Operational">*[System[((EventID &gt;= 1001 and EventID &lt;= 1004) or EventID=1006 or EventID=1007)]]</Select>
+  </Query>
+  <!-- 31-8 Code integrity -->
+  <Query Id="7">
+    <!-- (5038) Code integrity determined that the image hash of a file is not valid. The file could be corrupt due to unauthorized modification or the invalid hash could indicate a potential disk device error (F)
+         (6281) Code Integrity determined that the page hashes of an image file aren't valid. The file could be improperly signed without page hashes or corrupt due to unauthorized modification. The invalid hashes could indicate a potential disk device error (F)
+         (6410) Code integrity determined that a file does not meet the security requirements to load into a process (F) -->
+    <Select Path="Security">*[System[Provider[@Name='Microsoft-Windows-Security-Auditing'] and (EventID=5038 or EventID=6281 or EventID=6410)]]</Select>
+    <!-- (3001) Unsigned drivers loaded on the system
+         (3002) Unable to verify the image integrity of the [FILE] because the set of per-page image hashes could not be found
+         (3003) Unable to verify the image integrity of the [FILE] because ... The image is allowed to load because kernel mode debugger is attached 
+         (3004) Unable to verify the image integrity of the [FILE] because file hash could not be found
+         (3033,3063) Code integrity determined that [process] attempted to load [FILE] that did not meet the signing level requirements
+         (3065,3066) Code integrity determined that [process] attempted to load [FILE] that did not meet the signing level requirements -->
+    <Select Path="Microsoft-Windows-CodeIntegrity/Operational">*[System[((EventID &gt;= 3001 and EventID &lt;= 3004) or EventID=3033 or EventID=3063 or EventID=3065 or EventID=3066)]]</Select>
+  </Query>
+  <!-- 31-9 DLL load -->
+  <Query Id="8">
+    <!-- (11) Custom dynamic link libraries are being loaded for every application -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-WinInit'] and (EventID=11)]]</Select>
+    <!-- (7) Image loaded -->
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID=7)]]</Select>
+  </Query>
+  <!-- 31-10 Security mitigations -->
+  <Query Id="9">
+    <!-- EMET events -->
+    <Select Path="Application">*[System[Provider[@Name='EMET']]]</Select>
+    <!-- (12) [process] was blocked from loading non Microsoft binary [DLL] -->
+    <Select Path="Microsoft-Windows-Security-Mitigations/KernelMode">*[System[(EventID=12)]]</Select>
+    <Select Path="Microsoft-Windows-Security-Mitigations/UserMode">*</Select>
+  </Query>
+  <!-- 31-11 BitLocker -->
+  <Query Id="10">
+    <Select Path="Microsoft-Windows-BitLocker/BitLocker Management">*</Select>
+    <Select Path="Microsoft-Windows-BitLocker/BitLocker Operational">*</Select>
+  </Query>
+  <!-- 31-12 CVE -->
+  <Query Id="11">
+    <!-- (1) Possible detection for [CVE] -->
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-Windows-Audit-CVE'] and (EventID=1)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Audit-CVE'] and (EventID=1)]]</Select>
+  </Query>
+  <!-- 100-SYSMON -->
+  <Query Id="12">
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID=1 or EventID=2 or EventID=255)]]</Select>
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID &gt;= 4 and EventID &lt;= 6)]]</Select>
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID &gt;= 8 and EventID &lt;= 18)]]</Select>
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID &gt;= 23 and EventID &lt;= 29)]]</Select>
+  </Query>
+</QueryList>

@@ -1,0 +1,52 @@
+<QueryList>
+  <!-- 22-1 Task Scheduler -->
+  <Query Id="0">
+    <!-- (4698) A scheduled task was created (S)
+         (4699) A scheduled task was deleted (S)
+         (4700) A scheduled task was enabled (S)
+         (4701) A scheduled task was disabled (S)
+         (4702) A scheduled task was updated (S) -->
+    <Select Path="Security">*[System[(EventID &gt;= 4698 and EventID &lt;= 4702)]]</Select>
+    <!-- (106) The user "[user]" registered the Task Scheduler task "[task]"
+         (129) Task Scheduler launched the "[instance]" instance of the "[task]" task with process ID [ID]
+         (140) User "[user]" updated Task Scheduler task "[task]"
+         (141) User "[user]" deleted Task Scheduler task "[task]"
+         (142) User "[user]" disabled Task Scheduler task "[task]"
+         (200) Task Scheduler launched the "[action]" action in the "[instance]" instance of task "[task]"
+         (201) Task Scheduler successfully completed task "[task]", instance "[instance]" , and action "[action]"  -->
+    <Select Path="Microsoft-Windows-TaskScheduler/Operational">*[System[(EventID=106 or EventID=129 or EventID=141 or EventID=142 or EventID=200 or EventID=201)]]</Select>
+    <Select Path="Microsoft-Windows-TaskScheduler/Operational">*[System[(EventID=140)]] and *[EventData[Data[@Name='UserName'] != 'NT AUTHORITY\System' and Data[@Name='UserName'] != 'System' and Data[@Name='TaskName'] != '\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask']]</Select>
+  </Query>
+  <!-- 22-2 Services -->
+  <Query Id="1">
+    <!-- (4697) A service was installed in the system (S) -->
+    <Select Path="Security">*[System[(EventID=4697)]]</Select>
+    <!-- (7045) New service installed
+         (7000) EVENT_SERVICE_START_FAILED
+         (7001) EVENT_SERVICE_START_DEPENDENCY_FAILED
+         (7022) EVENT_SERVICE_START_HUNG
+         (7038) EVENT_FIRST_LOGON_FAILED_II
+         (7041) EVENT_SERVICE_LOGON_TYPE_NOT_GRANTED
+         (7030) EVENT_SERVICE_NOT_INTERACTIVE
+         (7040) EVENT_SERVICE_START_TYPE_CHANGED
+         (7009) EVENT_CONNECTION_TIMEOUT
+         (7011) EVENT_TRANSACT_TIMEOUT
+         (7016) EVENT_BAD_SERVICE_STATE
+         (7035) EVENT_SERICE_CONTROL_SUCCESS
+         (7036) EVENT_SERVICE_STATUS_SUCCESS
+         (7037) EVENT_SERVICE_CONFIG_BACKOUT_FAILED
+         (7021) EVENT_SEVERE_SERVICE_FAILED
+         (7023) EVENT_SERVICE_EXIT_FAILED
+         (7024) EVENT_SERVICE_EXIT_FAILED_SPECIFIC
+         (7031) EVENT_SERVICE_CRASH
+         (7032) EVENT_SERVICE_RECOVERY_FAILED
+         (7034) EVENT_SERVICE_CRASH_NO_ACTION
+         (7042) EVENT_SERVICE_STOP_SUCCESS_WITH_REASON
+         (7043) EVENT_SERVICE_STOP_FAILURE_PRESHUTDOWN -->
+    <Select Path="System">*[System[Provider[@Name='Service Control Manager'] and (EventID=7045)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Service Control Manager'] and (EventID=7000 or EventID=7001 or EventID=7022 or EventID=7038 or EventID=7041)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Service Control Manager'] and (EventID=7030 or EventID=7040)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Service Control Manager'] and (EventID=7009 or EventID=7011 or EventID=7016 or EventID=7035 or EventID=7036 or EventID=7037)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Service Control Manager'] and (EventID=7021 or EventID=7023 or EventID=7024 or EventID=7031 or EventID=7032 or EventID=7034 or EventID=7042 or EventID=7043)]]</Select>
+  </Query>
+</QueryList>

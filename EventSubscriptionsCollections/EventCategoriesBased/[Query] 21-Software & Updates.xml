@@ -1,0 +1,70 @@
+<QueryList>
+  <!-- 21-1 Software -->
+  <Query Id="0">
+    <!-- (1022) Product: [product] - Update '[update]' installed successfully
+         (1033) Product: [product]. Version: [version]. Language: [language]. Manufacturer: [manufacturer]. Installation completed with status: [status].
+         (1034) Product: [product]. Version: [version]. Language: [language]. Manufacturer: [manufacturer]. Deletion completed with status: [status].
+         (1036) Product: [product]. Version: [version]. Language: [language]. Manufacturer: [manufacturer]. Update completed with status: [status].
+         (1038) Product: [product]. Version: [version]. Language: [language]. Manufacturer: [manufacturer]. Rebbot type [type] required with reason [reason].
+         (11707) Product [product] – Installation operation completed successfully -->
+    <Select Path="Application">*[System[Provider[@Name='MsiInstaller'] and (EventID=1022 or EventID=1033 or EventID=1034 or EventID=1036 or EventID=1038 or EventID=11707)]]</Select>
+    <!-- (500) Compatibility fix applied to [app path] -->
+    <Select Path="Microsoft-Windows-Application-Experience/Program-Telemetry">*[System[(EventID=500)]]</Select>
+    <!-- (17) Program Compatibility Assistant execution -->
+    <Select Path="Microsoft-Windows-Application-Experience/Program-Compatibility-Assistant">*[System[(EventID=17)]]</Select>
+    <!-- (903,904) Program installed on the system
+         (907,908) Program removed from the system -->
+    <Select Path="Microsoft-Windows-Application-Experience/Program-Inventory">*[System[(EventID=903 or EventID=904 or EventID=907 or EventID=908)]]</Select>
+    <!-- (201) Process creation [ID] for [application] of [package]. Finish package activation -->
+    <Select Path="Microsoft-Windows-AppModel-Runtime/Admin">*[System[(EventID=201)]]</Select>
+    <!-- (327) The following [packages] will be installed. The following ones will be deleted [package] -->
+    <Select Path="Microsoft-Windows-AppXDeployment/Operational">*[System[(EventID=327)]]</Select>
+    <!-- (400) [Operation] on [volume] for [package] from [source] finished
+         (401) [Operation] on [volume] for [package] from [source] failed with [error]
+         (441,442,453,454) Package deployement blocked by policy
+         (478) Deployement registration on [volume] with [package] finished
+         (854) Added URL to process: [x-windowsupdate: //] / [file path] ... -->
+    <Select Path="Microsoft-Windows-AppXDeploymentServer/Operational">*[System[(EventID=400 or EventID=401 or EventID=441 or EventID=442 or EventID=453 or EventID=454 or EventID=478 or EventID=854)]]</Select>
+  </Query>
+  <!-- 21-2 Application crash -->
+  <Query Id="1">
+    <!-- (1000) Applicatio crash / error -->
+    <Select Path="Application">*[System[Provider[@Name='Application Error'] and (EventID=1000)]]</Select>
+    <!-- (1002) Application hang -->
+    <Select Path="Application">*[System[Provider[@Name='Application Hang'] and (EventID=1002)]]</Select>
+    <!-- (1001) WER (application crashes only) -->
+    <Select Path="Application">*[System[Provider[@Name='Windows Error Reporting']]] and (EventID=1001) or (*[EventData[Data[3] ="APPCRASH"]])</Select>
+    <!-- (1001) BSOD -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-WER-SystemErrorReporting'] and (EventID=1001)]]</Select>
+  </Query>
+  <!-- 21-3 Default application -->
+  <Query Id="2">
+    <!-- (62443) Association=[.pdf], ProgId=[App path], U=[User SID] -->
+    <Select Path="Microsoft-Windows-Shell-Core/AppDefaults">*[System[(EventID=62443)]]</Select>
+  </Query>
+  <!-- 21-4 Microfost Office -->
+  <Query Id="3">
+    <!-- (300) Microsoft Office Alert -->
+    <Select Path="OAlerts">*[System[(EventID=300)]]</Select>
+  </Query>
+  <!-- 21-5 Application whitelisting -->
+  <Query Id="4">
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-WindowsSoftwareRestrictionPolices']]]</Select>
+    <!-- (8002) [application] was allowed to run
+         (8003) [application] was prevented from running
+         (8004) [application] was not allowed to run -->
+    <Select Path="Microsoft-Windows-AppLocker/EXE and DLL">*[System[(EventID &gt;= 8002 and EventID &lt;= 8004)]]</Select>
+    <!-- (8005) [application] was allowed to run
+         (8006) [application] was prevented from running
+         (8007) [application] was not allowed to run -->
+    <Select Path="Microsoft-Windows-AppLocker/MSI and Script">*[System[(EventID &gt;= 8005 and EventID=8007)]]</Select>
+    <!-- (8020) Packaged app allowed
+         (8021) Packaged app audited
+         (8022) Packaged app disabled -->
+    <Select Path="Microsoft-Windows-AppLocker/Packaged app-Execution">*[System[(EventID &gt;= 8020 and EventID &lt;= 8022)]]</Select>
+    <!-- (8023) Packaged app installation allowed
+         (8024) Packaged app installation audited
+         (8025) Packaged app installation disabled -->
+    <Select Path="Microsoft-Windows-AppLocker/Packaged app-Deployment">*[System[(EventID &gt;= 8023 and EventID &lt;= 8025)]]</Select>
+  </Query>
+</QueryList>

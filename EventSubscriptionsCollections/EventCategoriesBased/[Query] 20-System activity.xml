@@ -1,0 +1,89 @@
+<QueryList>
+  <!-- 20-1 System Boot-->
+  <Query Id="0">
+    <!-- (1074) [process] has initiated the restart of [host] on behalf of [user] for the following [reason]
+         (1076) Reason supplied by [user] for the last unexpected shutdown is: [reason] -->
+    <Select Path="System">*[System[Provider[@Name='USER32'] and (EventID=1074 or EventID=1076)]]</Select>
+    <!-- (12) The operating system started at system time [time]
+         (13) The operating system is shutting down at system time [time] -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID=12 or EventID=13)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Kernel-Boot']]]</Select>
+    <!-- (41) The system has rebooted without cleaning shutting down first
+         (109) The kernel power manager has initiated a shutdown transition -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Kernel-Power'] and (EventID=41 or EventID=109)]]</Select>
+    <!-- (6008) Previous system shutdown was not planned
+         (6013) System uptime is [seconds] -->
+    <Select Path="System">*[System[Provider[@Name='EventLog'] and (EventID=6008 or EventID=6013)]]</Select>
+    <!-- (6) FS Filter Driver loaded -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-FilterManager'] and (EventID=6)]]</Select>
+    <!-- (4608) Windows is starting up (S)
+         (4621) Administrator recovered system from CrashOnAuditFail (S)
+         (4826) Boot Configuration Data loaded (S) -->
+    <Select Path="Security">*[System[(EventID=4608 or EventID=4621 or EventID=4826)]]</Select>
+    <!-- (9707) Boot start: execution for [app -parameter] -->
+    <Select Path="Microsoft-Windows-Shell-Core/Operational">*[System[(EventID=9707)]]</Select>
+  </Query>
+  <!-- 20-2 Time -->
+  <Query Id="1">
+    <!-- (1) The system time was changed -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID=1)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Time-Service']]]</Select>
+    <!-- (20000) System was activated with the following setting [year, month, hour, minute] -->
+    <Select Path="Microsoft-Windows-DateTimeControlPanel/Operational">*[System[(EventID=20000)]]</Select>
+    <Select Path="Microsoft-Windows-Time-Service/Operational">*</Select>
+    <!-- (4616) The system time was changed (S) -->
+    <Select Path="Security">*[System[(EventID=4616)]]</Select>
+  </Query>
+  <!-- 20-3 User Profile -->
+  <Query Id="2">
+    <!-- (1) Search indexing Service for [user] removed in responce to user profile deletion -->
+    <Select Path="Application">*[System[Provider[@Name='Search-ProfileNotify'] and (EventID=1)]]</Select>
+    <!-- (1511) User logon with temporary profile
+         (1518) Cannot create profile, using temporary profile -->
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-Windows-User Profiles Service'] and (EventID=1511 or EventID=1518)]]</Select>
+  </Query>
+  <!-- 20-4 Group Policy (GPO) -->
+  <Query Id="3">
+    <!-- (4739) Domain Policy was changed (S) -->
+    <Select Path="Security">*[System[(EventID=4739)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-GroupPolicy']]]</Select>
+    <Select Path="Microsoft-Windows-GroupPolicy/Operational">*</Select>
+    <Select Path="Microsoft-Windows-Security-Audit-Configuration-Client/Operational">*</Select>
+  </Query>
+  <!-- 20-5 Windows Event Log -->
+  <Query Id="4">
+    <!-- (6005) Event log service was started
+         (6006) Event log service was stopped -->
+    <Select Path="System">*[System[Provider[@Name='EventLog'] and (EventID=6005 or EventID=6006)]]</Select>
+    <!-- (104) Evenl log [log] was cleared -->
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Eventlog'] and (EventID=104)]]</Select>
+    <!-- (1100) The event logging service has shut down (S)
+         (1101) Events has been dropped (-)
+         (1102) The audit log was cleared (S)
+         (1104) The security log is now full (S)
+         (1105) Event log automatic backup (S)
+         (1107) Event log service encountered an error from [publisher] (-)
+         (1108) The event logging service encountered an error while processing an incoming event published from %1 (S) -->
+    <Select Path="Security">*[System[Provider[@Name='Microsoft-Windows-Eventlog'] and (EventID=1100 or EventID=1101 or EventID=1102 or EventID=1104 or EventID=1105 or EventID=1107 or EventID=1108)]]</Select>
+  </Query>
+  <!-- 20-6 Windows Event Forwarding -->
+  <Query Id="5">
+    <!-- WEF client events -->
+    <Select Path="Microsoft-Windows-Forwarding/Operational">*</Select>
+    <!-- WEC service events -->
+    <Select Path="Microsoft-Windows-EventCollector/Operational">*</Select>
+  </Query>
+  <!-- 20-7 WMI / DCOM-->
+  <Query Id="6">
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-DistributedCOM']]]</Select>
+    <!-- (5857) Provider started
+         (5858) Provider error
+         (5860) Registration of Temporary Event Consumer
+         (5861) Registration of Permanent Event Consumer -->
+    <Select Path="Microsoft-Windows-WMI-Activity/Operational">*[System[(EventID=5857 or EventID=5858 or EventID=5860 or EventID=5861)]]</Select>
+    <!-- (19) WmiEventFilter activity
+         (20) WmiEventConsumer activity
+         (21) WmiEventConsumerToFilter -->
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID=19 or EventID=20 or EventID=21)]]</Select>
+  </Query>
+</QueryList>

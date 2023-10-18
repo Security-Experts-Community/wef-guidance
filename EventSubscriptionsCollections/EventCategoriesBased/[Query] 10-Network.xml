@@ -1,0 +1,151 @@
+<QueryList>
+  <!-- 10-1 DHCP client -->
+  <Query Id="0">
+    <!-- (50086) IP conflict detection complete on interface [interface] for IP [IP] -->
+    <Select Path="Microsoft-Windows-Dhcp-Client/Operational">*[System[(EventID=50086)]]</Select>
+    <Select Path="Microsoft-Windows-Dhcpv6-Client/Operational">*</Select>
+  </Query>
+  <!-- 10-2 DNS client -->
+  <Query Id="1">
+    <!-- (3008) DNS query complete
+         (3020) DNS responce complete -->
+    <Select Path="Microsoft-Windows-DNS-Client/Operational">*[System[(EventID=3008 or EventID=3020)]]</Select>
+    <!-- (22) DNS query -->
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID=22)]]</Select>
+  </Query>
+  <!-- 10-3 SMB share -->
+  <Query Id="2">
+    <!-- (30800) The server name cannot be resolved
+         (30803) Failed to establish a network connection
+         (30804) A network connection was disconnected
+         (30805) The client lost its session to the server
+         (30806) The client re-established its session to the server -->
+    <Select Path="Microsoft-Windows-SMBClient/Connectivity">*[System[(EventID=30800 or (EventID &gt;= 30803 and EventID &lt;= 30806))]]</Select>
+    <!-- (30622,30624) UNC/mapped drive successful connection -->
+    <Select Path="Microsoft-Windows-SMBClient/Operational">*[System[(EventID=30622 or EventID=30624)]]</Select>
+    <!-- (31010) A process has requested access to an object, but has not been granted those access rights
+         (31017) Rejected an insecure guest logon
+         (31018) Administrator has enabled insecure guest
+         (32000) SMB1 negotiate responce received from a remote device when SMB1 cannot be negotiated by the local computer -->
+    <Select Path="Microsoft-Windows-SMBClient/Security">*[System[(EventID=31010 or EventID=31017 or EventID=31018 or EventID=32000)]]</Select>
+    <!-- (3000) Client attempt to use SMB1 -->
+    <Select Path="Microsoft-Windows-SMBServer/Audit">*[System[(EventID=3000)]]</Select>
+    <!-- (1001) Client attempt to use SMB1 -->
+    <Select Path="Microsoft-Windows-SMBServer/Operational">*[System[(EventID=1001)]]</Select>
+    <!-- (551) SMB Session Authentication Failure
+         (1006) Share access denied -->
+    <Select Path="Microsoft-Windows-SMBServer/Security">*[System[(EventID=551 or EventID=1006)]]</Select>
+    <!-- (5140) A network share object was accessed (S, F)
+         (5142) A network share object was added (S)
+         (5143) A network share object was modified (S)
+         (5144) A network share object was deleted (S)
+         (5145) A network share object was checked to see whether client can be granted desired access (S, F)
+         (5168) SPN check for SMB/SMB2 failed (F) -->
+    <Select Path="Security">*[System[(EventID=5140 or EventID=5142 or EventID=5143 or EventID=5144 or EventID=5145 or EventID=5168)]]</Select>
+  </Query>
+  <!-- 10-4 Traffic flow -->
+  <Query Id="3">
+    <!-- (5156) The Windows Filtering Platform has permitted a connection (S)
+         (5154) The Windows Filtering Platform has permitted an application or service to listen on a port for incoming connections (S)
+         (5158) The Windows Filtering Platform has permitted a bind to a local port (S)
+         (5031) The Windows Firewall Service blocked an application from accepting incoming connections on the network (F)
+         (5146) The Windows Filtering Platform blocked a packet (-)
+         (5147) A more restrictive Windows Filtering Platform filter has blocked a packet (-)
+         (5150) The Windows Filtering Platform blocked a packet (-)
+         (5151) A more restrictive Windows Filtering Platform filter has blocked a packet (-)
+         (5152) The Windows Filtering Platform blocked a packet
+         (5153) A more restrictive Windows Filtering Platform filter has blocked a packet (S)
+         (5157) The Windows Filtering Platform has blocked a connection (F)
+         (5155) The Windows Filtering Platform has blocked an application or service from listening on a port for incoming connections (F)
+         (5159) The Windows Filtering Platform has blocked a bind to a local port (F) -->
+    <Select Path="Security">*[System[EventID=5031 or EventID=5146 or EventID=5147 or (EventID &gt;= 5150 and EventID &lt;= 5159)]]</Select>
+    <!-- (3) Network connection -->
+    <Select Path="Microsoft-Windows-Sysmon/Operational">*[System[(EventID=3)]]</Select>
+  </Query>
+  <!-- 10-5 Firewall configuration -->
+  <Query Id="4">
+    <!-- (2002) A setting has changed
+         (2003) A setting has changed in profile [X]
+         (2004) A rule was added
+         (2005) A rule was modified
+         (2006) A rule was deleted
+         (2009) Failed to load Group Policy
+         (2033) All rules have been deleted -->
+    <Select Path="Microsoft-Windows-Windows Firewall With Advanced Security/Firewall">*[System[(EventID &gt;= 2002 and EventID &lt;= 2006)]]</Select>
+    <Select Path="Microsoft-Windows-Windows Firewall With Advanced Security/Firewall">*[System[(EventID=2009 or EventID=2033)]]</Select>
+    <!-- (4944) The following policy was active when the Windows Firewall started (S)
+         (4945) A rule was listed when the Windows Firewall started (S)
+         (4946) A change has been made to Windows Firewall exception list. A rule was added (S)
+         (4947) A change has been made to Windows Firewall exception list. A rule was modified (S)
+         (4948) A change has been made to Windows Firewall exception list. A rule was deleted (S)
+         (4949) Windows Firewall settings were restored to the default values (S)
+         (4950) A Windows Firewall setting has changed (S)
+         (4951) A rule has been ignored because its major version number wasn't recognized by Windows Firewall (F)
+         (4952) Parts of a rule have been ignored because its minor version number was not recognized by Windows Firewall. The other parts of the rule will be enforced (F)
+         (4953) Windows Firewall ignored a rule because it couldn't be parsed (F)
+         (4954) Windows Firewall Group Policy settings have changed. The new settings have been applied (S)
+         (4956) Windows Firewall has changed the active profile (S)
+         (4957) Windows Firewall did not apply the following rule (F)
+         (4958) Windows Firewall did not apply the following rule because the rule referred to items not configured on this computer (F)
+         (5040) A change has been made to IPsec settings. An Authentication Set was added (S)
+         (5041) A change has been made to IPsec settings. An Authentication Set was modified (S)
+         (5042) A change has been made to IPsec settings. An Authentication Set was deleted (S)
+         (5043) A change has been made to IPsec settings. A Connection Security Rule was added (S)
+         (5044) A change has been made to IPsec settings. A Connection Security Rule was modified (S)
+         (5045) A change has been made to IPsec settings. A Connection Security Rule was deleted (S)
+         (5046) A change has been made to IPsec settings. A Crypto Set was added (S)
+         (5047) A change has been made to IPsec settings. A Crypto Set was modified (S)
+         (5048) A change has been made to IPsec settings. A Crypto Set was deleted (S)
+         (5446) A Windows Filtering Platform callout has been changed (S)
+         (5448) A Windows Filtering Platform provider has been changed (S)
+         (5449) A Windows Filtering Platform provider context has been changed (S)
+         (5450) A Windows Filtering Platform sub-layer has been changed (S) -->
+    <Select Path="Security">*[System[(EventID &gt;= 4944 and EventID &lt;= 4954) or (EventID &gt;= 4956 and EventID &lt;= 4958)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 5040 and EventID &lt;= 5048) or EventID=5446 or (EventID &gt;= 5448 and EventID &lt;= 5450)]]</Select>
+  </Query>
+  <!-- 10-6 Network profiles -->
+  <Query Id="5">
+    <!-- (10000) Network connected to domain [domain] -->
+    <Select Path="Microsoft-Windows-NetworkProfile/Operational">*[System[EventID=10000]]</Select>
+  </Query>
+  <!-- 10-7 BITS -->
+  <Query Id="6">
+    <!-- (3) BITS created a task
+         (4) BITS transfer completed
+         (59) BITS transfer job started with URL [URL]
+         (60) BITS transfer job stopped with URL [URL] -->
+    <Select Path="Microsoft-Windows-Bits-Client/Operational">*[System[EventID=3 or EventID=4 or EventID=59 or EventID=60]]</Select>
+  </Query>
+  <!-- 10-8 Proxy -->
+  <Query Id="7">
+    <!-- (5600) Proxy configuration obtained [Proxy URL] -->
+    <Select Path="Microsoft-Windows-WinINet-Config/ProxyConfigChanged">*[System[EventID=5600]]</Select>
+  </Query>
+  <!-- 10-9 WLAN interface -->
+  <Query Id="8">
+    <!-- (12011) Wireless 802.1x authentication started
+         (12012) Wireless 802.1x authentication succeeded
+         (20019) A client has associated with the hosted network
+         (20020) A client has successfully authenticated with the hosted network -->
+    <Select Path="Microsoft-Windows-WLAN-AutoConfig/Operational">*[System[EventID=12011 or EventID=12012 or EventID=20019 or EventID=20020]]</Select>
+  </Query>
+  <!-- 10-10 Wired interface -->
+  <Query Id="9">
+    <!-- (15510) A network adapter was added to the system -->
+    <Select Path="Microsoft-Windows-Wired-AutoConfig/Operational">*[System[EventID=15510]]</Select>
+  </Query>
+  <!-- 10-11 WinSock / LSP -->
+  <Query Id="10">
+    <!-- (1) Protocol entry added to Winsock catalog
+         (2) Protocol entry removed from Winsock catalog
+         (3) Protocol entry disabled from Winsock catalog
+         (4) Winsock catalog was reset -->
+    <Select Path="Microsoft-Windows-Winsock-WS2HELP/Operational">*[System[EventID=1 or EventID=2 or EventID=3 or EventID=4]]</Select>
+  </Query>
+  <!-- 10-12 Denial of service (DoS) -->
+  <Query Id="11">
+    <!-- (5148) The Windows Filtering Platform has detected a DoS attack and entered a defensive mode; packets associated with this attack will be discarded (F)
+         (5149) The DoS attack has subsided and normal processing is being resumed (F) -->
+    <Select Path="Security">*[System[EventID=5148 or EventID=5149]]</Select>
+  </Query>
+</QueryList>

@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<instrumentationManifest xsi:schemaLocation="http://schemas.microsoft.com/win/2004/08/events eventman.xsd" xmlns="http://schemas.microsoft.com/win/2004/08/events" xmlns:win="http://manifests.microsoft.com/win/2004/08/windows/events" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:trace="http://schemas.microsoft.com/win/2004/08/events/trace">
+    <instrumentation>
+        <events>
+            <provider name="Event Collector-Domain-Clients" guid="{1E0D3DF8-84FB-47DB-B8BD-D55DA0E7A174}" symbol="WEC_DOMAIN_CLIENTS_EVENTS" resourceFileName="C:\Windows\System32\EventCollectorChannels.dll" messageFileName="C:\Windows\System32\EventCollectorChannels.dll" parameterFileName="C:\Windows\System32\EventCollectorChannels.dll">
+                <channels>
+                    <channel name="Event Collector-Domain-Clients/Network and Internet" chid="EventCollector-Domain-Clients/NetworkandInternet" symbol="WEC_DOMAIN_CLIENTS_NETWORK" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Clients/System" chid="EventCollector-Domain-Clients/System" symbol="WEC_DOMAIN_CLIENTS_SYSTEM" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Clients/Applications" chid="EventCollector-Domain-Clients/Applications" symbol="WEC_DOMAIN_CLIENTS_APPLICATIONS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Clients/Services" chid="EventCollector-Domain-Clients/Services" symbol="WEC_DOMAIN_CLIENTS_SERVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Clients/Accounts" chid="EventCollector-Domain-Clients/Accounts" symbol="WEC_DOMAIN_CLIENTS_ACCOUNTS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Clients/Update and Security" chid="EventCollector-Domain-Clients/UpdateandSecurity" symbol="WEC_DOMAIN_CLIENTS_SECURITY" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Clients/Devices" chid="EventCollector-Domain-Clients/Devices" symbol="WEC_DOMAIN_CLIENTS_DEVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Clients/Powershell" chid="EventCollector-Domain-Clients/Powershell" symbol="WEC_DOMAIN_CLIENTS_POWERSHELL" type="Admin" enabled="false" />
+                </channels>
+            </provider>
+            <provider name="Event Collector-Domain-Controllers" guid="{FBAD1D6D-C994-4CB9-BA06-3F4D1D296099}" symbol="WEC_DOMAIN_CONTROLLERS_EVENTS" resourceFileName="C:\Windows\System32\EventCollectorChannels.dll" messageFileName="C:\Windows\System32\EventCollectorChannels.dll" parameterFileName="C:\Windows\System32\EventCollectorChannels.dll">
+                <channels>
+                    <channel name="Event Collector-Domain-Controllers/Network and Internet" chid="EventCollector-Domain-Controllers/NetworkandInternet" symbol="WEC_DOMAIN_CONTROLLERS_NETWORK" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Controllers/System" chid="EventCollector-Domain-Controllers/System" symbol="WEC_DOMAIN_CONTROLLERS_SYSTEM" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Controllers/Applications" chid="EventCollector-Domain-Controllers/Applications" symbol="WEC_DOMAIN_CONTROLLERS_APPLICATIONS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Controllers/Services" chid="EventCollector-Domain-Controllers/Services" symbol="WEC_DOMAIN_CONTROLLERS_SERVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Controllers/Accounts" chid="EventCollector-Domain-Controllers/Accounts" symbol="WEC_DOMAIN_CONTROLLERS_ACCOUNTS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Controllers/Update and Security" chid="EventCollector-Domain-Controllers/UpdateandSecurity" symbol="WEC_DOMAIN_CONTROLLERS_SECURITY" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Controllers/Devices" chid="EventCollector-Domain-Controllers/Devices" symbol="WEC_DOMAIN_CONTROLLERS_DEVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Controllers/Powershell" chid="EventCollector-Domain-Controllers/Powershell" symbol="WEC_DOMAIN_CONTROLLERS_POWERSHELL" type="Admin" enabled="false" />
+                </channels>
+            </provider>
+            <provider name="Event Collector-Domain-Member Servers" guid="{D9BA47A9-1969-4DE1-A877-80924C018A95}" symbol="WEC_DOMAIN_SERVERS_EVENTS" resourceFileName="C:\Windows\System32\EventCollectorChannels.dll" messageFileName="C:\Windows\System32\EventCollectorChannels.dll" parameterFileName="C:\Windows\System32\EventCollectorChannels.dll">
+                <channels>
+                    <channel name="Event Collector-Domain-Member Servers/Network and Internet" chid="EventCollector-Domain-MemberServers/NetworkandInternet" symbol="WEC_DOMAIN_SERVERS_NETWORK" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Member Servers/System" chid="EventCollector-Domain-MemberServers/System" symbol="WEC_DOMAIN_SERVERS_SYSTEM" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Member Servers/Applications" chid="EventCollector-Domain-MemberServers/Applications" symbol="WEC_DOMAIN_SERVERS_APPLICATIONS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Member Servers/Services" chid="EventCollector-Domain-MemberServers/Services" symbol="WEC_DOMAIN_SERVERS_SERVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Member Servers/Accounts" chid="EventCollector-Domain-MemberServers/Accounts" symbol="WEC_DOMAIN_SERVERS_ACCOUNTS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Member Servers/Update and Security" chid="EventCollector-Domain-MemberServers/UpdateandSecurity" symbol="WEC_DOMAIN_SERVERS_SECURITY" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Member Servers/Devices" chid="EventCollector-Domain-MemberServers/Devices" symbol="WEC_DOMAIN_SERVERS_DEVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-Domain-Member Servers/Powershell" chid="EventCollector-Domain-MemberServers/Powershell" symbol="WEC_DOMAIN_SERVERS_POWERSHELL" type="Admin" enabled="false" />
+                </channels>
+            </provider>
+            <provider name="Event Collector-NonDomain-Clients" guid="{18BB46C9-3FD9-4353-8CDF-796FFFE80B82}" symbol="WEC_NONDOMAIN_CLIENTS_EVENTS" resourceFileName="C:\Windows\System32\EventCollectorChannels.dll" messageFileName="C:\Windows\System32\EventCollectorChannels.dll" parameterFileName="C:\Windows\System32\EventCollectorChannels.dll">
+                <channels>
+                    <channel name="Event Collector-NonDomain-Clients/Network and Internet" chid="EventCollector-NonDomain-Clients/NetworkandInternet" symbol="WEC_NONDOMAIN_CLIENTS_NETWORK" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Clients/System" chid="EventCollector-NonDomain-Clients/System" symbol="WEC_NONDOMAIN_CLIENTS_SYSTEM" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Clients/Applications" chid="EventCollector-NonDomain-Clients/Applications" symbol="WEC_NONDOMAIN_CLIENTS_APPLICATIONS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Clients/Services" chid="EventCollector-NonDomain-Clients/Services" symbol="WEC_NONDOMAIN_CLIENTS_SERVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Clients/Accounts" chid="EventCollector-NonDomain-Clients/Accounts" symbol="WEC_NONDOMAIN_CLIENTS_ACCOUNTS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Clients/Update and Security" chid="EventCollector-NonDomain-Clients/UpdateandSecurity" symbol="WEC_NONDOMAIN_CLIENTS_SECURITY" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Clients/Devices" chid="EventCollector-NonDomain-Clients/Devices" symbol="WEC_NONDOMAIN_CLIENTS_DEVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Clients/Powershell" chid="EventCollector-NonDomain-Clients/Powershell" symbol="WEC_NONDOMAIN_CLIENTS_POWERSHELL" type="Admin" enabled="false" />
+                </channels>
+            </provider>
+            <provider name="Event Collector-NonDomain-Servers" guid="{4B8C14AD-AF20-4B59-BE14-6DD92B268BD9}" symbol="WEC_NONDOMAIN_SERVERS_EVENTS" resourceFileName="C:\Windows\System32\EventCollectorChannels.dll" messageFileName="C:\Windows\System32\EventCollectorChannels.dll" parameterFileName="C:\Windows\System32\EventCollectorChannels.dll">
+                <channels>
+                    <channel name="Event Collector-NonDomain-Servers/Network and Internet" chid="EventCollector-NonDomain-Servers/NetworkandInternet" symbol="WEC_NONDOMAIN_SERVERS_NETWORK" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Servers/System" chid="EventCollector-NonDomain-Servers/System" symbol="WEC_NONDOMAIN_SERVERS_SYSTEM" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Servers/Applications" chid="EventCollector-NonDomain-Servers/Applications" symbol="WEC_NONDOMAIN_SERVERS_APPLICATIONS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Servers/Services" chid="EventCollector-NonDomain-Servers/Services" symbol="WEC_NONDOMAIN_SERVERS_SERVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Servers/Accounts" chid="EventCollector-NonDomain-Servers/Accounts" symbol="WEC_NONDOMAIN_SERVERS_ACCOUNTS" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Servers/Update and Security" chid="EventCollector-NonDomain-Servers/UpdateandSecurity" symbol="WEC_NONDOMAIN_SERVERS_SECURITY" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Servers/Devices" chid="EventCollector-NonDomain-Servers/Devices" symbol="WEC_NONDOMAIN_SERVERS_DEVICES" type="Admin" enabled="false" />
+                    <channel name="Event Collector-NonDomain-Servers/Powershell" chid="EventCollector-NonDomain-Servers/Powershell" symbol="WEC_NONDOMAIN_SERVERS_POWERSHELL" type="Admin" enabled="false" />
+                </channels>
+            </provider>
+        </events>
+    </instrumentation>
+</instrumentationManifest>

@@ -1,0 +1,159 @@
+<QueryList>
+  <!-- 70-IIS Webserver -->
+  <Query Id="0">
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-IIS-APPHOSTSVC' or @Name='Microsoft-Windows-IIS-Configuration' or @Name='Microsoft-Windows-IIS-FTP' or @Name='Microsoft-Windows-IIS-Logging' or @Name='Microsoft-Windows-W3LOGSVC' or @Name='Microsoft-Windows-IIS-W3SVC' or @Name='Microsoft-Windows-IIS-W3SVC-WP' or @Name='Microsoft-Windows-IIS-WMSVC']]]</Select>
+    <!-- (29) Changes to [xxx] has successfully been committed (module)
+         (50) Changes to [xxx] has successfully been committed (Webconfig) -->
+    <Select Path="Microsoft-IIS-Configuration/Operational">*[System[(EventID=29 or EventID=50)]]</Select>
+    <Select Path="Microsoft-IIS-Configuration/Administrative">*</Select>
+  </Query>
+  <!-- 71-Exchange Server -->
+  <Query Id="1">
+    <Select Path="Application">*[System[Provider[@Name='MSExchangeIS Mailbox Store' or @Name='MSExchange Autodiscover' or @Name='MSExchange Control Panel']]]</Select>
+    <!-- (1) Success command operation
+         (6) Failed command operation -->
+    <Select Path="MSExchange Management">*[System[(EventID=1 or EventID=6)]]</Select>
+  </Query>
+  <!-- 72-OCSP -->
+  <Query Id="2">
+    <!-- (5120) OCSP Responder Service Started (-)
+         (5121) OCSP Responder Service Stopped (-)
+         (5122) A Configuration entry changed in the OCSP Responder Service (-)
+         (5123) A configuration entry changed in the OCSP Responder Service (-)
+         (5124) A security setting was updated on OCSP Responder Service (-)
+         (5125) A request was submitted to OCSP Responder Service (-)
+         (5126) Signing Certificate was automatically updated by the OCSP Responder Service (-)
+         (5127) The OCSP Revocation Provider successfully updated the revocation information (-) -->
+    <Select Path="Security">*[System[(EventID &gt;=5120 and EventID &lt;=5127)]]</Select>
+  </Query>
+  <!-- 73-ADCS Server -->
+  <Query Id="3">
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-Windows-CertificationAuthority']]]</Select>
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-Windows-NetworkDeviceEnrollmentService']]]</Select>
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-Windows-OnlineResponderWebProxy']]]</Select>
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-Windows-OnlineResponder']]]</Select>
+    <Select Path="Application">*[System[Provider[@Name='Microsoft-Windows-OnlineResponderRevocationProvider']]]</Select>
+    <Select Path="Microsoft-Windows-EnrollmentPolicyWebService/Admin">*[System[Provider[@Name='Microsoft-Windows-EnrollmentPolicyWebService']]]</Select>
+    <Select Path="Microsoft-Windows-EnrollmentWebService/Admin">*[System[Provider[@Name='Microsoft-Windows-EnrollmentWebService']]]</Select>
+    <!-- (4868) The certificate manager denied a pending certificate request (-)
+         (4869) Certificate Services received a resubmitted certificate request (-)
+         (4870) Certificate Services revoked a certificate (-)
+         (4871) Certificate Services received a request to publish the certificate revocation list (CRL) (-)
+         (4872) Certificate Services published the certificate revocation list (CRL) (-)
+         (4873) A certificate request extension changed (-)
+         (4874) One or more certificate request attributes changed (-)
+         (4875) Certificate Services received a request to shut down (-)
+         (4876) Certificate Services backup started (-)
+         (4877) Certificate Services backup completed (-)
+         (4878) Certificate Services restore started (-)
+         (4879) Certificate Services restore completed (-)
+         (4880) Certificate Services started (-)
+         (4881) Certificate Services stopped (-)
+         (4882) The security permissions for Certificate Services changed (-)
+         (4883) Certificate Services retrieved an archived key (-)
+         (4884) Certificate Services imported a certificate into its database (-)
+         (4885) The audit filter for Certificate Services changed (-)
+         (4886) Certificate Services received a certificate request (-)
+         (4887) Certificate Services approved a certificate request and issued a certificate (-)
+         (4888) Certificate Services denied a certificate request (-)
+         (4889) Certificate Services set the status of a certificate request to pending (-)
+         (4890) The certificate manager settings for Certificate Services changed (-)
+         (4891) A configuration entry changed in Certificate Services (-)
+         (4892) A property of Certificate Services changed (-)
+         (4893) Certificate Services archived a key (-)
+         (4894) Certificate Services imported and archived a key (-)
+         (4895) Certificate Services published the CA certificate to Active Directory Domain Services (-)
+         (4896) One or more rows have been deleted from the certificate database (-)
+         (4897) Role separation enabled (-)
+         (4898) Certificate Services loaded a template (-)
+         (4899) A Certificate Services template was updated (-)
+         (4900) Certificate Services template security was updated (-) -->
+    <Select Path="Security">*[System[(EventID &gt;= 4868 and EventID &lt;= 4900)]]</Select>
+  </Query>
+  <!-- 74-SQL Server -->
+  <Query Id="4">
+        <Select Path="Application">*[System[Provider[@Name='MSSQLSERVER']]]</Select>
+  </Query>
+  <!-- 75-ADFS Server -->
+  <Query Id="5">
+    <!-- (4665) An attempt was made to create an application client context (-)
+         (4666) An application attempted an operation (-)
+         (4667) An application client context was deleted (-)
+         (4668) An application was initialized (-) -->
+    <Select Path="Security">*[System[Provider[@Name='AD FS Auditing'] or (EventID &gt;= 4665 and EventID &lt;= 4668)]]</Select>
+    <Select Path="DRS/Admin">*[System[Provider[@Name='Device Registration Service']]]</Select>
+    <Select Path="AD FS/Admin">*[System[Provider[@Name='AD FS']]]</Select>
+    <Select Path="Microsoft-Windows-FederationServices-Deployment/Operational">*</Select>
+  </Query>
+  <!-- 76-DHCP Server -->
+  <Query Id="6">
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Dhcp-Server']]]</Select>
+    <Select Path="DhcpAdminEvents">*</Select>
+    <Select Path="Microsoft-Windows-Dhcp-Server/Operational">*</Select>
+    <Select Path="Microsoft-Windows-Dhcp-Server/FilterNotifications">*</Select>
+    <Select Path="Microsoft-Windows-DhcpNap/Operational">*</Select>
+  </Query>
+  <!-- 77-Advanced Threat Analytics -->
+  <Query Id="7">
+    <Select Path="Microsoft ATA">*</Select>
+  </Query>
+  <!-- 78-Remote Access Services (RAS) / Direct Access / Always On VPN (AOVPN) -->
+  <Query Id="8">
+    <Select Path="Microsoft-Windows-Base-Filtering-Engine-Connections/Operational">*</Select>
+    <Select Path="Microsoft-Windows-Base-Filtering-Engine-Resource-Flows/Operational">*</Select>
+    <Select Path="Microsoft-Windows-WinNat/Oper">*</Select>
+    <Select Path="Microsoft-Windows-Iphlpsvc/Operational">*</Select>
+  </Query>
+  <!-- 79-NPS Server / RADIUS -->
+  <Query Id="9">
+    <!-- (6272) Network Policy Server granted access to a user (-)
+         (6273) Network Policy Server denied access to a user (-)
+         (6274) Network Policy Server discarded the request for a user (-)
+         (6275) Network Policy Server discarded the accounting request for a user (-)
+         (6276) Network Policy Server quarantined a user (-)
+         (6277) Network Policy Server granted access to a user but put it on probation because the host did not meet the defined health policy (-)
+         (6278) Network Policy Server granted full access to a user because the host met the defined health policy (-)
+         (6279) Network Policy Server locked the user account due to repeated failed authentication attempts (-)
+         (6280) Network Policy Server unlocked the user account (-) -->
+    <Select Path="Security">*[System[(EventID &gt;= 6272 and EventID &lt;= 6280)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='RemoteAccess'] and (EventID=20063 or EventID=20088 or EventID=20103 or EventID=20106 or EventID=20249 or EventID=20250 or EventID=20252 or EventID=20253 or EventID=20255 or EventID=20258 or EventID=20266 or EventID=20271 or EventID=20272 or EventID=20274 or EventID=20275)]]</Select>
+    <Select Path="System">*[System[Provider[@Name='NPS']]]</Select>
+    <Select Path="System">*[System[Provider[@Name='HRA']]]</Select>
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-HCAP']]]</Select>
+  </Query>
+  <!-- 80-Virtualization / Containers -->
+  <Query Id="10">
+    <Select Path="Application">*[System[Provider[@Name='Docker']]]</Select>
+    <Select Path="Microsoft-Windows-Containers-Wcifs/Operational">*</Select>
+    <Select Path="Microsoft-Windows-Containers-Wcnfs/Operational">*</Select>
+    <Select Path="Microsoft-Windows-Hyper-V-Compute-Admin">*</Select>
+    <Select Path="Microsoft-Windows-Hyper-V-Compute-Operational">*</Select>
+  </Query>
+  <!-- 81-Terminal Services (RDS) -->
+  <Query Id="11">
+    <Select Path="System">*[System[Provider[@Name='Microsoft-Windows-TerminalServices-RemoteConnectionManager' or @Name='Microsoft-Windows-TerminalServices-SessionBroker-Client' or @Name='Microsoft-Windows-TerminalServices-Licensing']</Select>
+    <Select Path="Microsoft-Windows-RemoteApp and Desktop Connection Management/Operational">*</Select>
+    <Select Path="Microsoft-Windows-TerminalServices-Gateway/Operational">*</Select>
+    <Select Path="Microsoft-Windows-TerminalServices-Licensing/Operational">*</Select>
+    <Select Path="Microsoft-Windows-TerminalServices-SessionBroker/Operational">*</Select>
+    <Select Path="Microsoft-Windows-TerminalServices-SessionBroker-Client/Operational">*</Select>
+  </Query>
+  <!-- 82-Windows Server Backup -->
+  <Query Id="12">
+    <Select Path="Microsoft-Windows-Backup">*</Select>
+  </Query>
+  <!-- 83-VPN IPsec -->
+  <Query Id="13">
+    <Select Path="Security">*[System[(EventID=4646 or EventID=4965 or EventID=5049)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4650 and EventID &lt;= 4655)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4960 and EventID &lt;= 4963)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 4976 and EventID &lt;= 4984)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 5451 and EventID &lt;= 5453)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 5478 and EventID &lt;= 5480)]]</Select>
+    <Select Path="Security">*[System[(EventID &gt;= 5483 and EventID &lt;= 5485)]]</Select>
+  </Query>
+  <!-- 84-WSUS -->
+  <Query Id="14">
+    <Select Path="Application">*[System[Provider[@Name='Windows Server Update Services']]]</Select>
+  </Query>
+</QueryList>

@@ -1,0 +1,17 @@
+[
+	{
+		"DSGDN": "CN=Domain Clients,OU=Computers,OU=Security,OU=Groups,OU=Assets and Enterprise Management,OU=Enterprise,DC=SECURITY,DC=LOCAL",
+		"OUDNList": [
+			"OU=Computers,OU=Resources,DC=SECURITY,DC=LOCAL"
+		],
+		"searchFilter": "(&(objectCategory=computer)(!(operatingSystem=*server*))(!(userAccountControl:1.2.840.113556.1.4.803:=8192))(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"
+	},
+	{
+		"DSGDN": "CN=Member Servers,OU=Computers,OU=Security,OU=Groups,OU=Assets and Enterprise Management,OU=Enterprise,DC=SECURITY,DC=LOCAL",
+		"OUDNList": [
+			"OU=Member Servers,OU=Assets and Enterprise Management,OU=Enterprise,DC=SECURITY,DC=LOCAL",
+			"OU=Member Servers,OU=Business Processes,OU=Enterprise,DC=SECURITY,DC=LOCAL"
+		],
+		"searchFilter": "(&(objectCategory=computer)(operatingSystem=*server*)(!(userAccountControl:1.2.840.113556.1.4.803:=8192))(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"
+	}
+]

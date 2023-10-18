@@ -1,0 +1,47 @@
+<QueryList>
+  <!-- 50-1 Account logon -->
+  <Query Id="0">
+    <!-- (4624) An account was successfully logged on (S)
+         (4625) An account failed to log on (F)
+         (4634) An account was logged off (S)
+         (4648) A logon was attempted using explicit credentials (S)
+         (4778) A session was reconnected to a Window Station (S)
+         (4779) A session was disconnected from a Window Station (S) -->
+    <Select Path="Security">*[System[(EventID=4624 or EventID=4625 or EventID=4634 or EventID=4648 or EventID=4778 or EventID=4779)]]</Select>
+  </Query>
+  <!-- 50-2 Privileged logon -->
+  <Query Id="1">
+    <!-- (4672) Special privileges assigned to new logon (S)
+         (4964) Special groups have been assigned to a new logon (S) -->
+    <Select Path="Security">*[System[(EventID=4672 or EventID=4964)]]</Select>
+  </Query>
+  <!-- 50-3 NTLM authentication -->
+  <Query Id="2">
+    <!-- (4774) An account was mapped for logon (S, F)
+         (4775) An account could not be mapped for logon (F)
+         (4776) The computer attempted to validate the credentials for an account (S, F)
+         (4777) The domain controller failed to validate the credentials for an account (F)
+         (4822) NTLM authentication failed because the account was a member of the Protected User group (F)
+         (4823) NTLM authentication failed because access control restrictions are required (F) -->
+    <Select Path="Security">*[System[((EventID &gt;= 4774 and EventID &lt;= 4777) or EventID=4822 or EventID=4823)]]</Select>
+    <!-- (8001) NTLM client blocked audit: Audit outgoing NTLM authentication traffic that would be blocked
+         (8002) NTLM traffic that would be blocked
+         (8003) NTLM server blocked in the domain audit: Audit authentication in this domain
+         (8004) Domain Controller blocked audit: Audit NTLM authentication to this Domain Controller -->
+    <Select Path="Microsoft-Windows-NTLM/Operational">*[System[(EventID &gt;= 8001 and EventID &lt;= 8004)]]</Select>
+  </Query>
+  <!-- 50-4 Smart-card authentication -->
+  <Query Id="3">
+    <Select Path="Microsoft-Windows-SmartCard-Audit/Authentication">*</Select>
+  </Query>
+  <!-- 50-5 Protected users -->
+  <Query Id="4">
+    <!-- (104) The security package on the client does not contain the credentials
+         (304) The security package does not store the Protected User's credentials -->
+    <Select Path="Microsoft-Windows-Authentication/ProtectedUser-Client">*[System[(EventID=104 or EventID=304)]]</Select>
+  </Query>
+  <!-- 50-6 Azure AD -->
+  <Query Id="5">
+    <Select Path="Microsoft-Windows-AAD/Operational">*</Select>
+  </Query>
+</QueryList>
