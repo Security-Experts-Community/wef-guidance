@@ -45,18 +45,23 @@ This repository is organized as follows:
 │       ├── EventCollectorChannels.dll
 │       ├── EventCollectorChannels.man
 │       └── README.md
-└── EventSubscriptionsCollections
+├── EventSubscriptionsCollections
+│   ├── README.md
+│   └── <Event Subscriptions Collection>
+│       ├── [Query] ....xml
+│       ├── ...
+│       ├── [Query] ....xml
+│       ├── EventCollectorSubscriptions.csv
+│       └── README.md
+└── GroupPolicyObjects
     ├── README.md
-    └── <Event Subscriptions Collection>
-        ├── [Query] ....xml
-        ├── ...
-        ├── [Query] ....xml
-        ├── EventCollectorSubscriptions.csv
-        └── README.md
+    ├── Windows Event Collector.md
+    └── Windows Event Forwarding.md
 ```
 
-- [`./EventChannelsCollections/`](/channels) -- collections of predefined custom event channels manifest and DLL files
-- [`./EventSubscriptionsCollections/`](/queries) -- collections of XML files with xPath queries for subscriptions
+- [`./GroupPolicyObjects`](/GroupPolicyObjects) -- some GPO recommendations
+- [`./EventChannelsCollections/`](/EventChannelsCollections) -- collections of predefined custom event channels manifest and DLL files
+- [`./EventSubscriptionsCollections/`](/EventSubscriptionsCollections) -- collections of XML files with xPath queries for subscriptions
 - [`./DSG.json`](DSG.json) -- input data for the [`./Set-DSGMembership.ps1`](Set-DSGMembership.ps1) script
 - [`./New-WECManifest.ps1`](New-WECManifest.ps1) -- main script for generation of custom event channels manifest file
 - [`./Set-WECEventChannels.ps1`](Set-WECEventChannels.ps1) -- main script for generation, configuration and deployment of custom event channels

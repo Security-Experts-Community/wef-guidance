@@ -1,8 +1,7 @@
 <#
 	.SYNOPSIS
 	Name: Remove-StaleWECSubscribers.ps1
-	Removes registry records of WEC event sources no longer existing in domain or no longer allowed
-	to connect to WEC subscriptions.
+	Removes registry records of inactive WEC event sources no longer allowed to connect to WEC subscriptions.
 	.DESCRIPTION
 	Searches all currently enabled SourceInitiated subscriptions binded to domain objects for inactive
 	event sources, that are no longer allowed to connect to those subscriptions and removes their
@@ -99,7 +98,7 @@ Param ([string]$Path, [string]$Message)
 
 $scriptName = (Get-Item $PSCommandPath).Basename	# script name
 $LogFile = "$LogPath\$scriptName.log"				# script log file path
-$AllStaleRecords = 0								# amount of registry records for domain computers that no longer exist in domain
+$AllStaleRecords = 0								# overall amount of removed registry records
 $Computers = @()									# array of allowed event sources for subscription (no need to override if SDDL is same)
 $SDDL = ''											# security descriptor of subscription (same SDDL = same set of computers)
 Rotate-Logs -Path $LogPath -Name $scriptName -Rotation $LogRotation
