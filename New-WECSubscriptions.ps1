@@ -28,31 +28,35 @@
 	Creates and imports the subscriptions but enables them immediately.
 	.PARAMETER NoImport
 	Creates the subscriptions files, but does not import them.
+	.NOTES
+	Adapted from script by Russell Tomkins. See link below.
+	.LINK
+	https://github.com/russelltomkins/Project-Sauron/blob/master/Create-Subscriptions.ps1
 #>
 
 [CmdletBinding()]
 Param(
 	[Parameter(Mandatory=$true,
-	           Position=0,
-	           HelpMessage="Path to configuration file with ChannelName, SubscriptionType, QueryPath, TransportName, ContentFormat, AllowedSourceDomainComputers, AllowedIssuerCAList and AllowedSubjectList values.")]
-    [ValidateScript({ Test-Path -Path $PSItem })]
+			   Position=0,
+			   HelpMessage="Path to configuration file with ChannelName, SubscriptionType, QueryPath, TransportName, ContentFormat, AllowedSourceDomainComputers, AllowedIssuerCAList and AllowedSubjectList values.")]
+	[ValidateScript({ Test-Path -Path $PSItem })]
 	[Alias("CFG")]
 	[string]
 	$ConfigurationFilePath,
 
 	[Parameter(Mandatory=$false,
-	           Position=1,
-	           HelpMessage="Location of the output subscription .xml files.")]
+			   Position=1,
+			   HelpMessage="Location of the output subscription .xml files.")]
 	[string]
 	$OutputFolder = "$PSScriptRoot\Subscriptions",
 
 	[Parameter(Mandatory=$false,
-	           HelpMessage="Indicated if created subscription must be enabled immediately.")]
+			   HelpMessage="Indicated if created subscription must be enabled immediately.")]
 	[switch]
 	$Enable = $true,
 
 	[Parameter(Mandatory=$false,
-	           HelpMessage="Indicates if created subscriptions files must be imported to the server.")]
+			   HelpMessage="Indicates if created subscriptions files must be imported to the server.")]
 	[switch]
 	$NoImport = $false
 )

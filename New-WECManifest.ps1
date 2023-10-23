@@ -12,13 +12,17 @@
 	.PARAMETER ConfigurationFilePath
 	A CSV file which must include a ProviderSymbol, ProviderName, ProviderGuid, ChannelSymbol
 	and ChannelName.
+	.NOTES
+	Adapted from script by Russell Tomkins. See link below.
+	.LINK
+	https://github.com/russelltomkins/Project-Sauron/blob/master/Create-Manifest.ps1
 #>
 
 [CmdletBinding()]
 Param(
 	[Parameter(Mandatory=$true,
-	           Position=0,
-	           HelpMessage="Path to configuration file with ProviderSymbol, ProviderName, ProviderGuid, ChannelSymbol and ChannelName values.")]
+			   Position=0,
+			   HelpMessage="Path to configuration file with ProviderSymbol, ProviderName, ProviderGuid, ChannelSymbol and ChannelName values.")]
 	[ValidateScript({ Test-Path -Path $PSItem })]
 	[Alias("CFG")]
 	[string]

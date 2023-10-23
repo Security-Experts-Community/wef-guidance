@@ -1,5 +1,8 @@
 # Event Categories Based Event Subscriptions
 Subscriptions, provided in this collection, are not intended for in depth security analysis and incident detection within event collector itself. Rather than that, they are defined as such to use along side enterprise SIEM system, so you can choose which category of events you want to collect and store on the collectors side and/or the SIEMs side. If that is not suitable for you, feel free to modify any of them to fit your goals or take ready to deploy alternatives from any other project, available on the internet.
+
+This subscriptions collection is based on [Michel de CREVOISIER](https://github.com/mdecrevoisier) **Microsoft-eventlog-mindmap** project.  
+Original work can be found here: https://github.com/mdecrevoisier/Microsoft-eventlog-mindmap
 ## List of WEF Subscriptions
 - **[10-Network](#10-network)**: Network services and firewall events.
 - **[11-Remote management](#11-remote-management)**: Remote management services events.
