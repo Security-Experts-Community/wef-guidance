@@ -31,20 +31,20 @@
 [CmdletBinding()]
 Param(
 	[Parameter(Mandatory=$false,
-	           Position=0,
-	           HelpMessage="Path to directory, where script logs will be written.")]
-    [ValidateScript({ Test-Path -Path $PSItem })]
+			   Position=0,
+			   HelpMessage="Path to directory, where script logs will be written.")]
+	[ValidateScript({ Test-Path -Path $PSItem })]
 	[string]
 	$LogPath = "$PSScriptRoot",
 
 	[Parameter(Mandatory=$false,
-	           Position=1,
-	           HelpMessage="Number of log files to rotate.")]
+			   Position=1,
+			   HelpMessage="Number of log files to rotate.")]
 	[int]
 	$LogRotation = 5,
 
 	[Parameter(Mandatory=$false,
-	           HelpMessage="Indicates if 'ActiveDirectory' module Cmdlets should be used instead of .NET 'Active Directory Searcher Object'.")]
+			   HelpMessage="Indicates if 'ActiveDirectory' module Cmdlets should be used instead of .NET 'Active Directory Searcher Object'.")]
 	[switch]
 	$UseADModule = $false
 )
