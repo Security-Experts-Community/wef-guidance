@@ -16,7 +16,7 @@
 
 ## Configuration
 
-Set the following setting **Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Management (WinRM)/WinRM Service -> Allow Remote Server Management through WinRM** to:
+Set the following setting `Computer Configuration -> Administrative Templates -> Windows Components -> Windows Remote Management (WinRM)/WinRM Service -> Allow Remote Server Management through WinRM` to:
 
 - **IPV4 filter**: [network ranges]
 - **IPv6 filter**: *
@@ -28,13 +28,13 @@ Set the following setting **Computer Configuration -> Administrative Templates -
 
 &nbsp;
 
-Set the following setting **Computer Configuration -> Policies -> Windows Settings -> Security Settings -> System Services -> Windows Remote Management (WS-Management)** to:
+Set the following setting `Computer Configuration -> Policies -> Windows Settings -> Security Settings -> System Services -> Windows Remote Management (WS-Management)` to:
 
 - **Startup Mode**: Automatic
 
 &nbsp;
 
-Create new service configuration under **Computer Configuration -> Preferences -> Control Panel Settings -> Services** with the following settings:
+Create new service configuration under `Computer Configuration -> Preferences -> Control Panel Settings -> Services` with the following settings:
 
 - **Service name**: WinRM
 - **Action**: Start service
@@ -45,7 +45,7 @@ Create new service configuration under **Computer Configuration -> Preferences -
 
 ## Optional
 
-Set the following setting **Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Local Polices/User Rights Assignment** to:
+Set the following setting `Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Local Polices/User Rights Assignment` to:
 
 - **Log on as a service**: [objects]
 
@@ -53,7 +53,7 @@ Set the following setting **Computer Configuration -> Policies -> Windows Settin
 
 &nbsp;
 
-Set the following setting **Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Restricted Groups** to:
+Set the following setting `Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Restricted Groups` to:
 
 - **BUILTIN\Administrators**: [objects]
 
@@ -61,7 +61,7 @@ Set the following setting **Computer Configuration -> Policies -> Windows Settin
 
 &nbsp;
 
-Create new registry key under **Computer Configuration -> Preferences -> Windows Settings -> Registry** with the following settings:
+Create new registry key under `Computer Configuration -> Preferences -> Windows Settings -> Registry` with the following settings:
 
 - **Action**: Update
 - **Hive**: HKEY_LOCAL_MACHINE
@@ -72,7 +72,7 @@ Create new registry key under **Computer Configuration -> Preferences -> Windows
 
 &nbsp;
 
-Create new task under **Computer Configuration -> Preferences -> Control Panel Settings -> Scheduled Tasks** with the following settings:
+Create new task under `Computer Configuration -> Preferences -> Control Panel Settings -> Scheduled Tasks` with the following settings:
 
 - **Task type**: Immediate Task (At least Windows 7)
 - **Task**:
@@ -86,7 +86,7 @@ Create new task under **Computer Configuration -> Preferences -> Control Panel S
 
 &nbsp;
 
-Create new task under **Computer Configuration -> Preferences -> Control Panel Settings -> Scheduled Tasks** with the following settings:
+Create new task under `Computer Configuration -> Preferences -> Control Panel Settings -> Scheduled Tasks` with the following settings:
 
 - **Task type**: Scheduled Task (At least Windows 7)
 - **Action**: Update

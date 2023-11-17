@@ -13,7 +13,7 @@
 
 ## Configuration
 
-Set the following setting **Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Restricted Groups** to:
+Set the following setting `Computer Configuration -> Policies -> Windows Settings -> Security Settings -> Restricted Groups` to:
 
 - **BUILTIN\Event Log Readers**: NT AUTHORITY\NETWORK SERVICE
 
@@ -21,13 +21,13 @@ Set the following setting **Computer Configuration -> Policies -> Windows Settin
 
 &nbsp;
 
-Set the following setting **Computer Configuration -> Administrative Templates -> Windows Components -> Event Log Service -> Security -> Configure log access** to:
+Set the following setting `Computer Configuration -> Administrative Templates -> Windows Components -> Event Log Service -> Security -> Configure log access` to:
 
 - **Log Access**: O:BAG:SYD:(A;;0xf0005;;;SY)(A;;0x5;;;BA)(A;;0x1;;;S-1-5-32-573)(A;;0x1;;;S-1-5-20)
 
 &nbsp;
 
-Set the following setting **Computer Configuration -> Administrative Templates -> Windows Components -> Event Forwarding -> Configure forwarder resource usage** to:
+Set the following setting `Computer Configuration -> Administrative Templates -> Windows Components -> Event Forwarding -> Configure forwarder resource usage` to:
 
 - **The maximum forwarding rate ( events/sec ) allowed for the forwarder**: [X]
 
@@ -35,7 +35,7 @@ Set the following setting **Computer Configuration -> Administrative Templates -
 
 &nbsp;
 
-Set the following setting **Computer Configuration -> Administrative Templates -> Windows Components -> Event Forwarding -> Configure target Subscription Manager** to:
+Set the following setting `Computer Configuration -> Administrative Templates -> Windows Components -> Event Forwarding -> Configure target Subscription Manager` to:
 
 - **SubscriptionManagers**: Server=[proto]://[server]:[port]/wsman/SubscriptionManager/WEC,Refresh=[ref]
 

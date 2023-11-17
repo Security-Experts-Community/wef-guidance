@@ -14,10 +14,10 @@ Make any changes to the `EventCollectorSubscriptions.csv` configuration file. En
 
 Bear in mind, that in some columns of `EventCollectorSubscriptions.csv` files, mainly `AllowedSourceDomainComputers`, `AllowedIssuerCAList` and `AllowedSubjectList`, you can specify several values separated by semicolon `;` symbol, e.g:
 
-| ProviderSymbol								| ... | AllowedSourceDomainComputers					| AllowedIssuerCAList 										 | AllowedSubjectList											|
-| ----------------------------- | --- | ------------------------------------- | ---------------------------------------- | -------------------------------------- |
-| WEC_DOMAIN_SERVERS_EVENTS			| ... | MSK-Domain-Members;SPB-Domain-Members |																					 |																				|
-| WEC_NON_DOMAIN_SERVERS_EVENTS | ... |																				| 073F4797D54776167C9199B2C36EAA01F1502C3F | \*.security.contoso.com;\*.contoso.com |
+| ChannelName					| ... | AllowedSourceDomainComputers			| AllowedIssuerCAList 						| AllowedSubjectList						|
+| ----------------------------- | --- | --------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| WEC-Domain-Servers/Events		| ... | MSK-Domain-Members;SPB-Domain-Members	|											|											|
+| WEC-NonDomain-Servers/Events	| ... |											| 073F4797D54776167C9199B2C36EAA01F1502C3F	| \*.security.contoso.com;\*.contoso.com	|
 
 ## Deployment:
 Deploy event subscriptions with [`New-WECSubscriptions.ps1`](./New-WECSubscriptions.ps1) script:
